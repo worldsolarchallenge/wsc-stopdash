@@ -1,2 +1,2 @@
-recursive-include wscearth/templates *
-recursive-include wscearth/static *
+recursive-include wsc_stopdash/templates *
+recursive-include wsc_stopdash/static *

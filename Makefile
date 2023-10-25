@@ -1,4 +1,4 @@
-DOCKER_NAME=wscearth
+DOCKER_NAME=wsc-stopdash
 DOCKER_TAG=latest
 DOCKER_REPO=dcasnowdon
 
@@ -34,9 +34,10 @@ build/testenv: setup.cfg
 
 localtest: build/testenv
 		source $</bin/activate && \
+			WSC_CONFIG_FILE_PATH=../config-test.yaml \
 			INFLUX_MEASUREMENT=telemetry4 \
-			INFLUX_TOKEN=$$(cat wsc_bucket_token.key) \
-		flask --debug --app wscearth run
+			INFLUX_TOKEN=$$(cat ../wsc_bucket_token.key) \
+		flask --debug --app wsc_stopdash run
 lint: build/testenv
 		source $</bin/activate && \
 				pip install pylint && \

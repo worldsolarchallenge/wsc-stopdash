@@ -20,4 +20,4 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # EXPOSE 5000
 
-CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "wscearth:app"]
+CMD ["gunicorn", "-w", "4", "--bind", "0.0.0.0:5000", "wsc_stopdash:app"]
