@@ -38,14 +38,40 @@ def index():
     return "Hello, World!"
 
 @app.route("/<stopname>/")
-@cache.cached(timeout=30)
+@cache.cached(timeout=1)
 @flask_cachecontrol.cache_for(seconds=30)
 def stopdash(stopname):
     """Render the control stop template"""
 
-    timing_sheet = get_timing_sheet()
+    config = app.config["WSC_CONFIG"]
+    timing_sheet = get_timing_sheet().sort_values(by=["control_stop.number"])
+
+    print(config["controlstops"])
+    stop = config["controlstops"][stopname]
+
+    before = {}
+    after = {}
+
+    print( timing_sheet[ ["team", "control_stop.name" ]] )
+
+    # Grab everything that has passed the previous control point
+    entries = (timing_sheet
+                [(timing_sheet["control_stop.number"] >= stop["number"] - 1) &
+                 (timing_sheet["control_stop.number"] < stop["number"] + 1) &
+                 (timing_sheet["trailering"] == False)]
+                 .sort_values(by=["time"])
+                 .drop_duplicates(subset=['teamnum'], keep='last')
+                 ).sort_values(by=["control_stop.number", "time"], ascending=[False, True]
+            )
+
+
+#    print(f"Stop number: {stop['number']}")
+
+#    import pprint
+#    pprint.pprint(entries)
+
+#    for entry in timing_sheet.sort_values(by=:"time"):
 
 
 
-
-    return flask.render_template("stopdash.html.j2")
+    return flask.render_template("stopdash.html.j2", pd=pd, controlstop=stop, entries=entries)
