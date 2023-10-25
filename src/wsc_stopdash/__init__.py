@@ -48,6 +48,4 @@ if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(module)s - %(levelname)s - Thread_name: %(threadName)s - %(message)s"
     logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
 
-    raise NotImplementedError("This code path has not been implemented")
-
     app.run(debug=True, host="0.0.0.0", port=5000)
