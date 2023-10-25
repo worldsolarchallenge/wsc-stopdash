@@ -1,0 +1,13 @@
+# See https://packaging.python.org/en/latest/tutorials/packaging-projects/
+
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+
+[tool.setuptools_scm]
+
+[tool.pylint]
+max-line-length = 120
