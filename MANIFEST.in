@@ -1,0 +1,2 @@
+recursive-include wscearth/templates *
+recursive-include wscearth/static *
