@@ -37,15 +37,23 @@
       </div>
 
       {% for _,vals in entries.iterrows() %}
-        {% if vals["control_stop.number"] == controlstop["number"] %}
+        {% if vals["trailering"] %}
+          <div class="row bg-info bg-gradient">
+              <div class="col">{{vals["teamnum"]}}</div>
+              <div class="col">{{vals["shortname"]}}</div>
+              <div class="col">Not Competing</div>
+              <div class="col">{{vals["time"]}}</div>
+          </div>
+
+        {% elif vals["control_stop.number"] == controlstop["number"] %}
           <div class="row">
               <div class="col">{{vals["teamnum"]}}</div>
               <div class="col">{{vals["shortname"]}}</div>
               <div class="col">{{vals["control_stop.name"]}}</div>
               <div class="col">{{vals["time"]}}</div>
           </div>
-        {% endif %}
-        {% if vals["control_stop.number"] == controlstop["number"] - 1%}
+
+        {% elif vals["control_stop.number"] == controlstop["number"] - 1%}
           <div class="row bg-secondary text-white">
               <div class="col">{{vals["teamnum"]}}</div>
               <div class="col">{{vals["shortname"]}}</div>

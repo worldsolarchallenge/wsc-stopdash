@@ -38,7 +38,7 @@ time >= -30d"""
 @app.route("/")
 def index():
     """An index document which serves as a reference."""
-    return "Hello, World!"
+    return flask.render_template("index.html.j2", stops=config["controlstops"])
 
 
 @app.route("/<stopname>/")
@@ -59,11 +59,10 @@ def stopdash(stopname):
         timing_sheet[
             (timing_sheet["control_stop.number"] >= stop["number"] - 1)
             & (timing_sheet["control_stop.number"] < stop["number"] + 1)
-            & (timing_sheet["trailering"] == False) # pylint: disable=singleton-comparison
         ]
         .sort_values(by=["time"])
         .drop_duplicates(subset=["teamnum"], keep="last")
-    ).sort_values(by=["control_stop.number", "time"], ascending=[False, True])
+    ).sort_values(by=["trailering", "control_stop.number", "time"], ascending=[True, False, True])
 
     #    print(f"Stop number: {stop['number']}")
 
