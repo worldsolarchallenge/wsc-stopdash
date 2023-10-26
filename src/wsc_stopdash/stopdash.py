@@ -6,7 +6,6 @@ import logging
 import flask
 import flask_cachecontrol
 from influxdb_client_3 import InfluxDBClient3
-import math
 import pandas as pd
 
 # Circular import recommended here: https://flask.palletsprojects.com/en/3.0.x/patterns/packages/
@@ -57,6 +56,7 @@ GROUP BY shortname"""  # pylint: disable=duplicate-code
     return df
 
 def get_trailering(external_only=True):
+    """Get the trailering table"""
     trailering_query = f"""\
 SELECT MAX(trailering)
 FROM "timingsheet"
@@ -130,12 +130,12 @@ def stopdash(stopname):
 
         if hours < 0:
             return "now"
-        elif hours < 1.0:
+        if hours < 1.0:
             minutes = hours * 60.0
             return f"{round(minutes)} min"
-        else:
-            # FIXME: If the time is going beyond the EOD indicate "tomorrow", etc.
-            return f"{hours:.1f} hours"
+
+        # FIXME: If the time is going beyond the EOD indicate "tomorrow", etc. # pylint: disable=fixme
+        return f"{hours:.1f} hours"
 
     df["eta"] = df.apply(_calculate_eta, axis=1, result_type="reduce")
 
