@@ -21,48 +21,64 @@
       <div class="row">
         <div class="col">
           <h1>NRMA Control Stop {{controlstop["number"]}}</h1>
-          <h2>{{controlstop["name"]}} at {{controlstop["km"]}} km</h2>
-          <h3>{{pd.Timestamp.now("Australia/Darwin")}}</h3>
+          <h2>{{controlstop["name"]}} at {{"%.1f"|format(controlstop["km"])}} km</h2>
+          <h3>{{pd.Timestamp.now("Australia/Darwin").strftime("%H:%M:%S")}}</h3>
         </div>
         <div class="col">
-          <img src="https://worldsolarchallenge.org/skin/2023/images/logo.svg" align="right" width="25%">
+          <img src="https://worldsolarchallenge.org/skin/2023/images/logo.svg" align="right" width="75%">
         </div>
       </div>
 
       <div class="row">
-          <div class="col"><b>#</b></div>
-          <div class="col"><b>Team</b></div>
-          <div class="col"><b>Control Stop</b></div>
-          <div class="col"><b>Time In</b></div>
-      </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Team#</th>
+              <th>Team</th>
+              <th>Control Stop</th>
+              <th>Time in</th>
+              <th>Speed</th>
+              <th>Distance</th>
+              <th>ETA</th>
+            </tr>
+          </thead>
 
+          <tbody>
       {% for _,vals in entries.iterrows() %}
         {% if vals["trailering"] %}
-          <div class="row bg-info bg-gradient">
-              <div class="col">{{vals["teamnum"]}}</div>
-              <div class="col">{{vals["shortname"]}}</div>
-              <div class="col">Not Competing</div>
-              <div class="col">{{vals["time"]}}</div>
-          </div>
+            <tr class="table-secondary">
+              <td>{{vals["teamnum"]}}</td>
+              <td>{{vals["shortname"]}}</td>
+                <td>{{vals["control_stop.name"]}}</td>
+              <td>{{vals["time"]}}</td>
+              <td>Not Competing</td>
+              <td></td>
+            </tr>
 
         {% elif vals["control_stop.number"] == controlstop["number"] %}
-          <div class="row">
-              <div class="col">{{vals["teamnum"]}}</div>
-              <div class="col">{{vals["shortname"]}}</div>
-              <div class="col">{{vals["control_stop.name"]}}</div>
-              <div class="col">{{vals["time"]}}</div>
-          </div>
+            <tr>
+                <td>{{vals["teamnum"]}}</td>
+                <td>{{vals["shortname"]}}</td>
+                <td>{{vals["control_stop.name"]}}</td>
+                <td>{{vals["time"]}}</td>
+                <td></td>
+                <td></td>
+            </tr>
 
         {% elif vals["control_stop.number"] == controlstop["number"] - 1%}
-          <div class="row bg-secondary text-white">
-              <div class="col">{{vals["teamnum"]}}</div>
-              <div class="col">{{vals["shortname"]}}</div>
-              <div class="col">{{vals["control_stop.name"]}}</div>
-              <div class="col">{{vals["time"]}}</div>
-          </div>
+            <tr class="table-warning">
+                <td>{{vals["teamnum"]}}</td>
+                <td>{{vals["shortname"]}}</td>
+                <td>{{vals["control_stop.name"]}}</td>
+                <td></td>
+                <td>{{"%d"|format(vals["speed"])}} km/h</td>
+                <td>{{"%d"|format(controlstop["km"] - vals["distance"])}} km</td>
+                <td>{{vals["eta"]}}</td>
+            </tr>
         {% endif %}
       {% endfor %}
-    </div>
+          </tbody>
+        </table>
 
 
   </body>
