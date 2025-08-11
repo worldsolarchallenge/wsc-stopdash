@@ -16,6 +16,7 @@ WORKDIR /app
 COPY . /app
 
 RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install setuptools wheel legacy-cgi && \
     pip install /app
 
 # EXPOSE 5000
