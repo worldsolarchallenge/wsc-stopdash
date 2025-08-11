@@ -25,7 +25,7 @@
           <h3>{{pd.Timestamp.now("Australia/Darwin").strftime("%H:%M:%S")}}</h3>
         </div>
         <div class="col">
-          <img src="https://worldsolarchallenge.org/skin/2023/images/logo.svg" align="right" width="75%">
+          <img src="https://worldsolarchallenge.org/BWSC-LogoBlack.svg" align="right" width="75%" style="padding: 10px;">
         </div>
       </div>
 
@@ -71,8 +71,8 @@
                 <td>{{vals["shortname"]}}</td>
                 <td>{{vals["control_stop.name"]}}</td>
                 <td></td>
-                <td>{{"%d"|format(vals["speed"])}} km/h</td>
-                <td>{{"%d"|format(controlstop["km"] - vals["distance"])}} km</td>
+                <td>{% if "speed" in vals %}{{"%d"|format(vals["speed"])}} km/h{% else %}N/A{% endif %}</td>
+                <td>{% if "distance" in vals %}{{"%d"|format(controlstop["km"] - vals["distance"])}} km{% else %}N/A{% endif %}</td>
                 <td>{{vals["eta"]}}</td>
             </tr>
         {% endif %}
