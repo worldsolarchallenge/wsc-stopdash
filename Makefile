@@ -29,6 +29,7 @@ publish: build
 build/testenv: setup.cfg
 		mkdir -p build
 		python3 -m venv build/testenv
+		build/testenv/bin/pip install --upgrade pip setuptools wheel legacy-cgi
 		source build/testenv/bin/activate && pip install -e .
 		touch $@
 
@@ -40,6 +41,7 @@ localtest: build/testenv
 		flask --debug --app wsc_stopdash run
 lint: build/testenv
 		source $</bin/activate && \
+		        pip install --upgrade pip setuptools wheel legacy-cgi && \
 				pip install pylint && \
 				pylint $$(git ls-files '*.py')
 

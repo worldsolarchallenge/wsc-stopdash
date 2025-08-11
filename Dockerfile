@@ -1,4 +1,4 @@
-FROM python:3.11.6-slim
+FROM python:3.13.5-slim
 
 # ENV GOOGLEMAPS_KEY
 # ENV INFLUX_TOKEN
@@ -16,6 +16,7 @@ WORKDIR /app
 COPY . /app
 
 RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install setuptools wheel legacy-cgi && \
     pip install /app
 
 # EXPOSE 5000
