@@ -29,6 +29,7 @@ publish: build
 build/testenv: setup.cfg
 		mkdir -p build
 		python3 -m venv build/testenv
+		build/testenv/bin/pip install --upgrade pip setuptools wheel legacy-cgi
 		source build/testenv/bin/activate && pip install -e .
 		touch $@
 
