@@ -41,6 +41,7 @@ localtest: build/testenv
 		flask --debug --app wsc_stopdash run
 lint: build/testenv
 		source $</bin/activate && \
+		        pip install --upgrade pip setuptools wheel legacy-cgi && \
 				pip install pylint && \
 				pylint $$(git ls-files '*.py')
 
