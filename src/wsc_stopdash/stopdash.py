@@ -99,16 +99,22 @@ def stopdash(stopname):
 
     timing_sheet["trailering"] = False
 
+    df = timing_sheet
+
     if not trailering.empty:
-        df = (timing_sheet
+        df = (df
             .drop(columns=["trailering"])
             .merge(trailering, on="shortname", how="left", suffixes=("_original",None))
         )
+    else:
+        logger.warning("No trailering data found.")
 
     if not positions.empty:
         df = (df
             .merge(positions, on="shortname", how="left", suffixes=(None,"_positions"))
         )
+    else:
+        logger.warning("No positions data found.")
 
     print(df)
 
@@ -118,6 +124,10 @@ def stopdash(stopname):
     print(timing_sheet[["team", "control_stop.name"]])
 
     def _calculate_eta(row):
+        if "speed" not in row or "distance" not in row:
+            logger.warning("Row missing 'speed' or 'distance': %s", row)
+            return "N/A"
+
         speed = row["speed"]
         if speed < 20.0:
             return "N/A"
