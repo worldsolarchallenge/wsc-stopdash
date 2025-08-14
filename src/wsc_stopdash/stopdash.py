@@ -55,28 +55,28 @@ GROUP BY shortname"""  # pylint: disable=duplicate-code
 
     return df
 
-def get_trailering(external_only=True):
-    """Get the trailering table"""
-    trailering_query = f"""\
-SELECT MAX(trailering)
+def get_competing(external_only=True):
+    """Get the competing table"""
+    competing_query = f"""\
+SELECT MIN(Competing)
 FROM "timingsheet"
 WHERE
 class <> 'Other' AND
 {"class <> 'Official Vehicles' AND " if external_only else ""}
 time >= now() - 7d
 GROUP BY shortname"""  # pylint: disable=duplicate-code
-    trailering_table = client.query(query=trailering_query, language="influxql")
+    competing_table = client.query(query=competing_query, language="influxql")
 
     # Convert to dataframe
-    trailering_df = pd.DataFrame()
-    if len(trailering_table) > 0:
-        trailering_df = (
-            trailering_table.to_pandas()
+    competing_df = pd.DataFrame()
+    if len(competing_table) > 0:
+        competing_df = (
+            competing_table.to_pandas()
             .reset_index()
-            .rename(columns={"max": "trailering"})
-            [["shortname","trailering"]]
+            .rename(columns={"min": "competing"})
+            [["shortname","competing"]]
         )
-        return trailering_df
+        return competing_df
 
     return pd.DataFrame()
 
@@ -86,6 +86,12 @@ def index():
     """An index document which serves as a reference."""
     return flask.render_template("index.html.j2", stops=config["controlstops"])
 
+@app.route("/favicon.ico")
+@cache.cached(timeout=1)
+@flask_cachecontrol.cache_for(seconds=30)
+def favicon():
+    """Serve the favicon."""
+    return flask.send_from_directory("static", "favicon.ico")
 
 @app.route("/<stopname>/")
 @cache.cached(timeout=1)
@@ -95,19 +101,19 @@ def stopdash(stopname):
 
     timing_sheet = get_timing_sheet().sort_values(by=["control_stop.number"])
     positions = get_positions()
-    trailering = get_trailering()
+    competing = get_competing()
 
-    timing_sheet["trailering"] = False
+    timing_sheet["competing"] = False
 
     df = timing_sheet
 
-    if not trailering.empty:
+    if not competing.empty:
         df = (df
-            .drop(columns=["trailering"])
-            .merge(trailering, on="shortname", how="left", suffixes=("_original",None))
+            .drop(columns=["competing"])
+            .merge(competing, on="shortname", how="left", suffixes=("_original",None))
         )
     else:
-        logger.warning("No trailering data found.")
+        logger.warning("No competing data found.")
 
     if not positions.empty:
         df = (df
@@ -158,7 +164,7 @@ def stopdash(stopname):
         ]
         .sort_values(by=["time"])
         .drop_duplicates(subset=["teamnum"], keep="last")
-    ).sort_values(by=["trailering", "control_stop.number", "time"], ascending=[True, False, True])
+    ).sort_values(by=["competing", "control_stop.number", "time"], ascending=[False, False, True])
 
     #    print(f"Stop number: {stop['number']}")
 
