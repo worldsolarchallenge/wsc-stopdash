@@ -11,7 +11,7 @@
 
   <body>
 
-    <h1>BWSC NRMA Control Stop Dashboards</h1>
+    <h1>BWSC Control Stop Dashboards</h1>
     <ul>
       {% for stop in stops %}
         <li><a href="{{ url_for('stopdash', stopname=stop) }}">{{stops[stop]["name"]}}</a></li>

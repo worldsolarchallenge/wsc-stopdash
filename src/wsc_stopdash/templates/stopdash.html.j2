@@ -20,7 +20,7 @@
     <div class="container text-center">
       <div class="row">
         <div class="col">
-          <h1>NRMA Control Stop {{controlstop["number"]}}</h1>
+          <h1>BWSC Control Stop {{controlstop["number"]}}</h1>
           <h2>{{controlstop["name"]}} at {{"%.1f"|format(controlstop["km"])}} km</h2>
           <h3>{{pd.Timestamp.now("Australia/Darwin").strftime("%H:%M:%S")}}</h3>
         </div>
@@ -34,7 +34,7 @@
           <thead>
             <tr>
               <th>Team#</th>
-              <th>Team</th>
+              <th class="text-start">Team</th>
               <th>Control Stop</th>
               <th>Time in</th>
               <th>Speed</th>
@@ -45,10 +45,10 @@
 
           <tbody>
       {% for _,vals in entries.iterrows() %}
-        {% if vals["trailering"] %}
+        {% if not vals["competing"] %}
             <tr class="table-secondary">
-              <td>{{vals["teamnum"]}}</td>
-              <td>{{vals["shortname"]}}</td>
+              <td>{{'%02d' % vals["teamnum"]|int}}</td>
+              <td class="text-start">{{vals["shortname"]}}</td>
                 <td>{{vals["control_stop.name"]}}</td>
               <td>{{vals["time"]}}</td>
               <td>Not Competing</td>
@@ -57,8 +57,8 @@
 
         {% elif vals["control_stop.number"] == controlstop["number"] %}
             <tr>
-                <td>{{vals["teamnum"]}}</td>
-                <td>{{vals["shortname"]}}</td>
+                <td>{{'%02d' % vals["teamnum"]|int}}</td>
+                <td class="text-start">{{vals["shortname"]}}</td>
                 <td>{{vals["control_stop.name"]}}</td>
                 <td>{{vals["time"]}}</td>
                 <td></td>
