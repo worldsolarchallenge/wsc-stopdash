@@ -2,6 +2,7 @@
 """Basic app endpoints for wsc_stopdash"""
 
 import logging
+import math
 
 import flask
 import flask_cachecontrol
@@ -136,6 +137,8 @@ def stopdash(stopname):
             return "N/A"
 
         speed = row["speed"]
+        if math.isnan(speed):
+            return "N/A"
         if speed < 20.0:
             return "N/A"
 
