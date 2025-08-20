@@ -71,8 +71,8 @@
                 <td>{{vals["shortname"]}}</td>
                 <td>{{vals["control_stop.name"]}}</td>
                 <td></td>
-                <td>{% if "speed" in vals %}{{"%d"|format(vals["speed"])}} km/h{% else %}N/A{% endif %}</td>
-                <td>{% if "distance" in vals %}{{"%d"|format(controlstop["km"] - vals["distance"])}} km{% else %}N/A{% endif %}</td>
+                <td>{% if "speed" in vals and vals["speed"] == vals["speed"] %}{{"%d"|format(vals["speed"])}} km/h{% else %}N/A{% endif %}</td>
+                <td>{% if "distance" in vals and vals["distance"] == vals["distance"] %}{{"%d"|format(controlstop["km"] - vals["distance"])}} km{% else %}N/A{% endif %}</td>
                 <td>{{vals["eta"]}}</td>
             </tr>
         {% endif %}
