@@ -27,10 +27,6 @@ if memcached_servers:
 
 app = Flask(__name__)
 
-logging.info("Using cache type: %s", config["CACHE_TYPE"])
-
-app = Flask(__name__)
-
 app.config.from_mapping(config)
 app.wsgi_app = ProxyFix(app.wsgi_app, x_prefix=1)
 cache = Cache(app)
@@ -57,6 +53,8 @@ with open(app.config["WSC_CONFIG_FILE_PATH"], encoding="utf-8") as f:
     app.config["WSC_CONFIG"] = mergedeep.merge(config_defaults, yaml.safe_load(f))
 
 import wsc_stopdash.stopdash  # pylint: disable=wrong-import-position
+
+logging.info("wsc_stopdash is running with config: %s", app.config["CACHE_TYPE"])
 
 if __name__ == "__main__":
     LOG_FORMAT = "%(asctime)s - %(module)s - %(levelname)s - Thread_name: %(threadName)s - %(message)s"

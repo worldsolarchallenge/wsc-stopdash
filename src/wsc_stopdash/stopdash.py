@@ -82,19 +82,20 @@ GROUP BY shortname"""  # pylint: disable=duplicate-code
 
 
 @app.route("/")
+@flask_cachecontrol.cache_for(seconds=30)
 def index():
     """An index document which serves as a reference."""
     return flask.render_template("index.html.j2", stops=config["controlstops"])
 
 @app.route("/favicon.ico")
-@cache.cached(timeout=1)
+@cache.cached(timeout=10)
 @flask_cachecontrol.cache_for(seconds=30)
 def favicon():
     """Serve the favicon."""
     return flask.send_from_directory("static", "favicon.ico")
 
 @app.route("/<stopname>/")
-@cache.cached(timeout=1)
+@cache.cached(timeout=10)
 @flask_cachecontrol.cache_for(seconds=30)
 def stopdash(stopname):
     """Render the control stop template"""
