@@ -7,7 +7,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/root/.cache/pip \
     apt-get update && \
     apt-get install -y \
-        git && \
+        git memcached libmemcached-dev gcc zlib1g-dev && \
     pip install gunicorn && \
     rm -rf /var/lib/apt/lists/*
 
