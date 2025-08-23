@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+
+    <title>BWSC Event Dashboard</title>
+  </head>
+
+  <body class="py-4">
+    <main>
+      <div class="container">
+    <h3>Control Stops</h3>
+    Each control stop has a dashboard that indicates which cars have checked in (and the time they did so),
+    which cars are currently at the stop, and which cars are inbound, and their ETA.
+    <ul>
+      {% for stop in stops %}
+        <li><a href="{{ url_for('stopdash', stopname=stop) }}">{{stops[stop]["name"]}}</a></li>
+      {% endfor%}
+    </ul>
+      </div>
+    </main>
+  </body>
+</html>
