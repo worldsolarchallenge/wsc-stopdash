@@ -88,6 +88,12 @@ def index():
     """An index document which serves as a reference."""
     return flask.render_template("index.html.j2", stops=config["controlstops"])
 
+@app.route("/stops.html")
+@flask_cachecontrol.cache_for(seconds=30)
+def stops_index():
+    """An index document which serves as a reference."""
+    return flask.render_template("stops.html.j2", stops=config["controlstops"])
+
 @app.route("/favicon.ico")
 @cache.cached(timeout=10)
 @flask_cachecontrol.cache_for(seconds=30)
@@ -160,6 +166,7 @@ def stopdash(stopname):
     df["eta"] = df.apply(_calculate_eta, axis=1, result_type="reduce")
 
     print(df)
+    print(df.columns)
     # Grab everything that has passed the previous control point
     entries = (
         df[
@@ -168,7 +175,7 @@ def stopdash(stopname):
         ]
         .sort_values(by=["time"])
         .drop_duplicates(subset=["teamnum"], keep="last")
-    ).sort_values(by=["competing", "control_stop.number", "time"], ascending=[False, False, True])
+    ).sort_values(by=["competing", "control_stop.number", "distance", "time"], ascending=[False, False, False, True])
 
     #    print(f"Stop number: {stop['number']}")
 
