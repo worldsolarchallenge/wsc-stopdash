@@ -1,22 +1,71 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 
+    <title>BWSC Event Dashboard</title>
   </head>
 
-  <body>
+  <body class="py-4">
+    <main>
+      <div class="container">
+        <h1>BWSC Event Dashboard</h1>
+        <h3>Maps</h3>
+        Car positions can be viewed on either google maps, or Google Earth. Earth provides a
+    a richer experience, but requires Google Earth installed.
+    <ul>
+      <li><a href="https://worldsolarchallenge.org/">World Solar Challenge Website Map</a></li>
+      <li><a href="https://telemetry.worldsolarchallenge.org/wscearth/">Simplified Google Map</a></li>
+      <li><a href="https://telemetry.worldsolarchallenge.org/wscearth/earth.kml">Google Earth</a></li>
+    </ul>
 
-    <h1>BWSC Control Stop Dashboards</h1>
+    <h3>Results</h3>
+    The event publishes real time updates to the results page, which can be viewed on the official web site.
+    <ul>
+    <li><a href="https://worldsolarchallenge.org/results">World Solar Challenge Results</a></li>
+    </ul>
+
+    <h3>Analysis</h3>
+    The progress of the event can be tracked via data gathered from the GPS trackers in the cars.
+    <ul>
+      <li><a href="https://telemetry.worldsolarchallenge.org/contrib/vision/leaderboard.html">Leader Board</a> (Contributed by Jelmer van de Wiel)</li>
+      <li><a href="https://telemetry.worldsolarchallenge.org/contrib/vision/challenger.html">Challenger Car Plot</a> (Contributed by Jelmer van de Wiel)</li>
+      <li><a href="https://telemetry.worldsolarchallenge.org/contrib/vision/cruiser.html">Cruiser Car Plot</a> (Contributed by Jelmer van de Wiel)</li>
+    </ul>
+
+    <h3>Grafana Dashboard</h3>
+    <p>The dashboard provides an overview of the event's progress, including real-time data on car positions, speeds, and other telemetry information.</p>
+    <ul>
+    <li><a href="https://telemetry.worldsolarchallenge.org/grafana/public-dashboards/9da7dad93b4844a7998ae4170ce588f7?from=now-6h&to=now&timezone=browser">View Dashboard</a></li>
+    </ul>
+
+    <h3>Control Stops</h3>
+    Each control stop has a dashboard that indicates which cars have checked in (and the time they did so),
+    which cars are currently at the stop, and which cars are inbound, and their ETA.
     <ul>
       {% for stop in stops %}
         <li><a href="{{ url_for('stopdash', stopname=stop) }}">{{stops[stop]["name"]}}</a></li>
       {% endfor%}
     </ul>
 
+    <h3>Weather</h3>
+    <p>Solcast have generously provided data regarding the current and forecasted amount of sunlight over the event route. That is visualised here:</p>
+    <ul>
+      <li><a href="https://telemetry.worldsolarchallenge.org/solcast/daily/solcast_ghi.png">Solcast Light Map</a></li>
+    </ul>
+
+    <h3>Raw data</h3>
+    If you would like to contribute some of your own analyses, or play with the data, you can find it here:
+    <ul>
+    <li><a href="https://telemetry.worldsolarchallenge.org/grabbag/alldata.csv">Raw Tracking Data CSV</a></li>
+    <li><a href="https://telemetry.worldsolarchallenge.org/wscearth/api/positions">Raw Map Data JSON</a></li>
+    </ul>
+      </div>
+    </main>
   </body>
 </html>
