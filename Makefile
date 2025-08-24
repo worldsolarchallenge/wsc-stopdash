@@ -35,7 +35,7 @@ build/testenv: setup.cfg
 
 localtest: build/testenv
 		source $</bin/activate && \
-			WSC_CONFIG_FILE_PATH=../config-test.yaml \
+			WSC_CONFIG_FILE_PATH=../config-prod.yaml \
 			INFLUX_MEASUREMENT=telemetry4 \
 			INFLUX_TOKEN=$$(cat ../wsc_bucket_token.key) \
 		flask --debug --app wsc_stopdash run

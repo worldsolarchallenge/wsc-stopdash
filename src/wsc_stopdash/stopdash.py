@@ -175,7 +175,8 @@ def stopdash(stopname):
         ]
         .sort_values(by=["time"])
         .drop_duplicates(subset=["teamnum"], keep="last")
-    ).sort_values(by=["competing", "control_stop.number", "distance", "time"], ascending=[False, False, False, True])
+        .round({"distance": 0})
+    ).sort_values(by=["competing", "control_stop.number", "time", "distance"], ascending=[False, False, True, False])
 
     #    print(f"Stop number: {stop['number']}")
 
