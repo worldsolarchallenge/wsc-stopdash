@@ -172,6 +172,7 @@ def stopdash(stopname):
         df[
             (df["control_stop.number"] >= stop["number"] - 1)
             & (df["control_stop.number"] < stop["number"] + 1)
+            & (df["ignore"] != True)
         ]
         .sort_values(by=["time"])
         .drop_duplicates(subset=["teamnum"], keep="last")
