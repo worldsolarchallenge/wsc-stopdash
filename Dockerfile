@@ -15,8 +15,10 @@ WORKDIR /app
 
 COPY . /app
 
+# htmlmin (via flask-googlemaps) imports cgi in its setup.py, so build it against legacy-cgi.
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install setuptools wheel legacy-cgi && \
+    pip install --no-build-isolation htmlmin && \
     pip install /app
 
 # EXPOSE 5000
